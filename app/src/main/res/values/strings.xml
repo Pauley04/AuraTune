@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AuraTune</string>
+    <string name="get_started">Get Started</string>
+    <string name="explorer_artist">Explorer Artist</string>
+
+    <!-- Added strings for item_song.xml -->
+    <string name="album_art_desc">Album art</string>
+    <string name="song_title_placeholder">Song title</string>
+    <string name="artist_placeholder">Artist</string>
+    <string name="artist">artist</string>
+    <string name="title">title</string>
+
+    <!-- Added strings for activity_player accessibility and defaults -->
+    <string name="back_desc">Back</string>
+    <string name="favorite_desc">Favorite</string>
+    <string name="time_zero">0:00</string>
+    <string name="repeat_desc">Repeat</string>
+    <string name="prev_desc">Previous</string>
+    <string name="play_desc">Play/Pause</string>
+    <string name="next_desc">Next</string>
+    <string name="shuffle_desc">Shuffle</string>
+</resources>
