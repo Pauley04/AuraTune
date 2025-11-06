@@ -27,8 +27,10 @@ public class SlpashActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.startBtn.setOnClickListener(view ->
-                startActivity(new Intent(SlpashActivity.this, MainActivity.class)));
+        binding.startBtn.setOnClickListener(view -> {
+            startActivity(new Intent(SlpashActivity.this, LoginActivity.class));
+            finish();
+        });
 
     }
 }

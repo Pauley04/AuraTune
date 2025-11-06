@@ -17,8 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuraTune">
         <activity
-            android:name=".PlayerActivity"
-            android:exported="false" />
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <!-- Launcher (entry) activity: Splash -> opens Login then Main -->
         <activity
             android:name=".SlpashActivity"
             android:exported="true">
@@ -27,10 +29,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- MainActivity: exported true so can be deep-linked if needed -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" /> <!-- PlayerActivity (internal) -->
+        <activity
+            android:name=".PlayerActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
