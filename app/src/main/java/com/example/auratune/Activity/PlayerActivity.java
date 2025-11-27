@@ -48,9 +48,9 @@ public class PlayerActivity extends AppCompatActivity {
                 long duration = player.getDuration();
                 if (duration > 0) {
                     float progressPercent = ((float) currentPosition / duration);
-                    binding.waveformSeekBar.setProgressInPercentage(currentPosition);
-                    binding.textLapse.setText(formatTime((int) (currentPosition / 100)));
-                    binding.textDuration.setText(formatTime((int) (duration / 100)));
+                    binding.waveformSeekBar.setProgressInPercentage(progressPercent);
+                    binding.textLapse.setText(formatTime((int) (currentPosition / 1000)));
+                    binding.textDuration.setText(formatTime((int) (duration / 1000)));
                 }
                 handler.postDelayed(this, 1000);
             }

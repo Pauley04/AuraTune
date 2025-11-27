@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.auratune.Domain.BannerModel;
 import com.example.auratune.Domain.CategoryModel;
 //import com.example.auratune.Domain.FavoriteModel;
-import com.example.auratune.Domain.FavoriteModel;
 import com.example.auratune.Repository.MainRepository;
 
 import java.util.ArrayList;
@@ -20,10 +19,6 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<ArrayList<BannerModel>> loadBanner(){
         return repository.loadBanner();
-    }
-
-    public LiveData<ArrayList<FavoriteModel>> loadFavorite() {
-        return repository.loadFavorite();
     }
 
 }
