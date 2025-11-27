@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -45,13 +46,19 @@ dependencies {
     implementation(libs.annotation)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.firebase.database)
+    implementation(libs.viewpager2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.google.android.exoplayer:exoplayer:2.19.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    //implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("androidx.palette:palette:1.0.0")
     implementation ("com.github.alexei-frolo:WaveformSeekBar:1.1")
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.google.code.gson:gson:2.13.1")
+    implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    //implementation ("com.google.firebase:firebase-database:22.0.1")
 }

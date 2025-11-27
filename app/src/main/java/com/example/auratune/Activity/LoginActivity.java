@@ -1,4 +1,4 @@
-package com.example.auratune;
+package com.example.auratune.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.text.InputType;
 
 import androidx.activity.EdgeToEdge;
@@ -15,10 +16,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.auratune.R;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText userEdit, passEdit;
     private Button loginBtn;
     private TextView forgetText;
+    private ImageView fbBtn, ggBtn, ttBtn; // added social buttons
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Please complete filling the login form", Toast.LENGTH_SHORT).show();
             }else if (userEdit.getText().toString().equals("aura") &&
                     passEdit.getText().toString().equals("1")) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                startActivity(new Intent(LoginActivity.this, MenuPlayerActivity.class));
             }
         });
 
@@ -65,11 +69,28 @@ public class LoginActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                 .show();
         });
+
+        // Social buttons: simple demo handlers (replace with real OAuth flows)
+        fbBtn.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Continue with Facebook (demo)", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MenuPlayerActivity.class));
+        });
+        ggBtn.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Continue with Google (demo)", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        });
+        ttBtn.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Continue with Twitter (demo)", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        });
     }
     private void initView(){
         userEdit = findViewById(R.id.editTextText);
         passEdit = findViewById(R.id.editTextTextPassword);
         loginBtn = findViewById(R.id.btnLogin);
         forgetText = findViewById(R.id.textView4);
+        fbBtn = findViewById(R.id.imageView5);
+        ggBtn = findViewById(R.id.imageView6);
+        ttBtn = findViewById(R.id.imageView8);
     }
 }

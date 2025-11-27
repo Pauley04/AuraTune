@@ -1,4 +1,4 @@
-package com.example.auratune;
+package com.example.auratune.Domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;

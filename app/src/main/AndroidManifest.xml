@@ -17,12 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuraTune">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <!-- Launcher (entry) activity: Splash -> opens Login then Main -->
         <activity
-            android:name=".SlpashActivity"
+            android:name=".Activity.SlpashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +31,14 @@
             </intent-filter>
         </activity> <!-- MainActivity: exported true so can be deep-linked if needed -->
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true" /> <!-- PlayerActivity (internal) -->
         <activity
-            android:name=".PlayerActivity"
+            android:name=".Activity.PlayerActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activity.MenuPlayerActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

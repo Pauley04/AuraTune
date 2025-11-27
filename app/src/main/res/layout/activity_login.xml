@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".Activity.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pur" />
+        android:src="@drawable/pur"
+        android:contentDescription="Decorative purple background" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -26,7 +27,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background" />
+        android:src="@drawable/background"
+        android:contentDescription="Background image" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -124,21 +126,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/facebook" />
+            android:src="@drawable/facebook"
+            android:contentDescription="Continue with Facebook"
+            android:clickable="true"
+            android:focusable="true" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/google" />
+            android:src="@drawable/google"
+            android:contentDescription="Continue with Google"
+            android:clickable="true"
+            android:focusable="true" />
 
         <ImageView
             android:id="@+id/imageView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/twitter" />
+            android:src="@drawable/twitter"
+            android:contentDescription="Continue with Twitter"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 

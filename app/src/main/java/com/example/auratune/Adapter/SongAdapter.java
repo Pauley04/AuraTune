@@ -1,4 +1,4 @@
-package com.example.auratune;
+package com.example.auratune.Adapter;
 
 import android.content.ContentUris;
 import android.net.Uri;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.auratune.R;
+import com.example.auratune.Domain.Song;
 import com.example.auratune.databinding.ItemSongBinding;
 
 import java.util.List;

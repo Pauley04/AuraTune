@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayerActivity">
+    tools:context=".Activity.PlayerActivity">
 
     <ImageView
         android:id="@+id/bgAlbumArt"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageAlbumArtPlayer" />
 
     <TextView
-        android:id="@+id/textArtist"
+        android:id="@+id/textSongArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -99,18 +99,18 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textArtist"
+        app:layout_constraintTop_toBottomOf="@+id/textSongArtist"
         app:waveProgressColor="@color/white" />
 
     <TextView
         android:id="@+id/textLapse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:text="@string/time_zero"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:textSize="13sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waveformSeekBar" />
 

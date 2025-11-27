@@ -7,8 +7,11 @@
     <string name="album_art_desc">Album art</string>
     <string name="song_title_placeholder">Song title</string>
     <string name="artist_placeholder">Artist</string>
+    <string name="duration_placeholder">0:00</string>
     <string name="artist">artist</string>
     <string name="title">title</string>
+    <string name="duration">duration</string>
+
 
     <!-- Added strings for activity_player accessibility and defaults -->
     <string name="back_desc">Back</string>
@@ -28,4 +31,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!-- category label -->
+    <string name="category_label">Category</string>
+    <string name="no_music_message">No music found. Grant permission or add audio files to your device.</string>
+    <string name="permission_prompt_music">Permission needed to read music files. Tap to request.</string>
 </resources>

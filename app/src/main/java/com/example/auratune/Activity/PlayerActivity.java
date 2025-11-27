@@ -1,4 +1,4 @@
-package com.example.auratune;
+package com.example.auratune.Activity;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -10,11 +10,10 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.auratune.R;
+import com.example.auratune.Domain.Song;
 import com.example.auratune.databinding.ActivityPlayerBinding;
 import com.frolo.waveformseekbar.WaveformSeekBar;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -24,7 +23,6 @@ import com.google.android.exoplayer2.Player;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -198,8 +196,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private String formatTime(int seconds) {
-        //return String.format("%02d:%02d", seconds / 60, seconds % 60);
-        return null;
+        return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }
 
     private int[] createWaveForm() {

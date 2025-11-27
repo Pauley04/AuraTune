@@ -1,4 +1,4 @@
-package com.example.auratune;
+package com.example.auratune.Activity;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import android.content.pm.PackageManager;
 import android.Manifest;
 import android.util.Log;
-import android.content.ContentUris;
+import android.view.View;
 
 
 import androidx.activity.EdgeToEdge;
@@ -19,8 +19,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.auratune.Adapter.SongAdapter;
+import com.example.auratune.Domain.Song;
+import com.example.auratune.R;
 import com.example.auratune.databinding.ActivityMainBinding;
 
 import java.util.List;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SongAdapter.OnItemClickListener {
     private ActivityMainBinding binding;
-    private RecyclerView.Adapter adapter;
+    private SongAdapter adapter;
     private List<Song> songList;
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
         setContentView(binding.getRoot());
         binding.recycleviewSongs.setLayoutManager(new LinearLayoutManager(this));
 
-        // register permission launcher here (safer lifecycle)
         requestPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
 
     private void checkPermissionsAndLoadSongs() {
         String permission;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permission = Manifest.permission.READ_MEDIA_AUDIO;
         } else {
             permission = Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -64,40 +65,56 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
             loadSongs();
         } else {
-            requestPermissionLauncher.launch(permission);
+            // show message in UI first
+            binding.textEmpty.setVisibility(View.VISIBLE);
+            binding.textEmpty.setText(R.string.permission_prompt_music);
+            binding.textEmpty.setOnClickListener(v -> requestPermissionLauncher.launch(permission));
         }
     }
 
     private List<Song> getSongs() {
         List<Song> songs = new ArrayList<>();
         Uri collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0";
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
         String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
 
         try (Cursor cursor = getContentResolver().query(collection, null, selection, null, sortOrder)) {
             if (cursor != null) {
-            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-            int titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-            int artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-            int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-            int albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
+                Log.d("AuraTune", "Cursor count: " + cursor.getCount());
+                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+                int titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                int artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+                int albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
 
-            while (cursor.moveToNext()) {
-                long id = cursor.getLong(idColumn);
-                String title = cursor.getString(titleColumn);
-                String artist = cursor.getString(artistColumn);
-                String data = cursor.getString(dataColumn);
-                long albumId = cursor.getLong(albumIdColumn);
+                while (cursor.moveToNext()) {
+                    long id = cursor.getLong(idColumn);
+                    String title = cursor.getString(titleColumn);
+                    String artist = cursor.getString(artistColumn);
+                    String data = cursor.getString(dataColumn);
+                    long albumId = cursor.getLong(albumIdColumn);
 
-                songs.add(new Song(id, title, artist, data, albumId));
+                    Log.d("AuraTune", "Song: " + title + " by " + artist);
+                    songs.add(new Song(id, title, artist, data, albumId));
                 }
+            } else {
+                Log.d("AuraTune", "Cursor is null");
             }
+        } catch (Exception e) {
+            Log.e("AuraTune", "Error loading songs", e);
         }
+        Log.d("AuraTune", "Total songs loaded: " + songs.size());
         return songs;
     }
 
     private void loadSongs() {
         songList = getSongs();
+        if (songList.isEmpty()) {
+            binding.textEmpty.setVisibility(View.VISIBLE);
+            binding.textEmpty.setText(R.string.no_music_message);
+        } else {
+            binding.textEmpty.setVisibility(View.GONE);
+        }
         adapter = new SongAdapter(songList, this);
         binding.recycleviewSongs.setAdapter(adapter);
 

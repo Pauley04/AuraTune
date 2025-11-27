@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
+        app:shapeAppearanceOverlay="@style/CircleImageView"
         android:id="@+id/imageAlbumArt"
         android:layout_width="56dp"
         android:layout_height="56dp"
