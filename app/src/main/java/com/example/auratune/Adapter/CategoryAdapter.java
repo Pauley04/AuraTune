@@ -35,18 +35,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        holder.binding.TitleCat.setText(items.get(position).getTitle());
+        //holder.binding.TitleCat.setText(items.get(position).getTitle());
+
+        int adapterPosition = holder.getBindingAdapterPosition();
+        if (adapterPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+
+        holder.binding.TitleCat.setText(items.get(adapterPosition).getTitle());
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int newPosition = holder.getBindingAdapterPosition();
+                if (newPosition == RecyclerView.NO_POSITION) {
+                    return;
+                }
+
                 lastSelectedPosition = selectedPosition;
-                selectedPosition = holder.getAdapterPosition();
-                notifyItemChanged(lastSelectedPosition);
+//                selectedPosition = holder.getAdapterPosition();
+//                notifyItemChanged(lastSelectedPosition);
                 notifyItemChanged(selectedPosition);
             }
         });
 
-        if(selectedPosition==position){
+        if(selectedPosition==adapterPosition){
             holder.binding.TitleCat.setBackgroundResource(R.drawable.purple_category_bg);
             holder.binding.TitleCat.setTextColor(context.getResources().getColor(R.color.white));
         }else{

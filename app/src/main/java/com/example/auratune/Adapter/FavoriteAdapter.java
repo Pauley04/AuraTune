@@ -65,7 +65,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             super(itemView);
             imageSongArt = itemView.findViewById(R.id.imageAlbumArt);
             textSongTitle = itemView.findViewById(R.id.textTitle);
-            textSongArtist = itemView.findViewById(R.id.textSongArtist);
+            textSongArtist = itemView.findViewById(R.id.textArtist);
             textSongDuration = itemView.findViewById(R.id.textSongDuration);
         }
     }

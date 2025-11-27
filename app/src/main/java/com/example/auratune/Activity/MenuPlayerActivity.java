@@ -1,11 +1,22 @@
 package com.example.auratune.Activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,18 +25,24 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 
 import com.example.auratune.Adapter.BannerAdapter;
 import com.example.auratune.Adapter.CategoryAdapter;
-import com.example.auratune.Adapter.FavoriteAdapter;
+import com.example.auratune.Adapter.SongAdapter;
 import com.example.auratune.Domain.BannerModel;
+import com.example.auratune.Domain.Song;
+import com.example.auratune.R;
 import com.example.auratune.ViewModel.MainViewModel;
 import com.example.auratune.databinding.ActivityMenuPlayerBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MenuPlayerActivity extends AppCompatActivity {
+public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter.OnItemClickListener {
     private ActivityMenuPlayerBinding binding;
     private MainViewModel viewModel;
 
-    private FavoriteAdapter favoriteAdapter;
+    private SongAdapter adapter;
+    private List<Song> songList;
+    private List<Song> previewSongs;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +54,27 @@ public class MenuPlayerActivity extends AppCompatActivity {
         // Use ViewModelProvider for lifecycle awareness
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        binding.favoriteView.setLayoutManager(new LinearLayoutManager(this));
+        binding.favoriteView.setNestedScrollingEnabled(false);
+
+        requestPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        loadSongs();
+                    } else {
+                        Toast.makeText(MenuPlayerActivity.this, "Permission denied to read storage", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
         initCategory();
         initBanner();
         initFavorite();
+
+        binding.textView9.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuPlayerActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initCategory() {
@@ -76,20 +111,81 @@ public class MenuPlayerActivity extends AppCompatActivity {
         });
     }
 
-    // ✅ Favorite section implementation
     private void initFavorite() {
         binding.progressBarFavorite.setVisibility(View.VISIBLE);
+        checkPermissionsAndLoadSongs();
+    }
 
-        favoriteAdapter = new FavoriteAdapter(this);
-        binding.favoriteView.setLayoutManager(new LinearLayoutManager(
-                MenuPlayerActivity.this, LinearLayoutManager.VERTICAL, false));
-        binding.favoriteView.setAdapter(favoriteAdapter);
-
-        viewModel.loadFavorite().observe(this, favoriteModels -> {
+    private void checkPermissionsAndLoadSongs() {
+        String permission;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission = Manifest.permission.READ_MEDIA_AUDIO;
+        } else {
+            permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        }
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            loadSongs();
+        } else {
+            binding.textEmptyFavorite.setVisibility(View.VISIBLE);
+            binding.textEmptyFavorite.setText(R.string.permission_prompt_music);
+            binding.textEmptyFavorite.setOnClickListener(v -> requestPermissionLauncher.launch(permission));
             binding.progressBarFavorite.setVisibility(View.GONE);
-            if (favoriteModels != null) {
-                favoriteAdapter.setFavoriteList(favoriteModels);
+        }
+    }
+
+    private List<Song> getSongs() {
+        List<Song> songs = new ArrayList<>();
+        Uri collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+
+        try (Cursor cursor = getContentResolver().query(collection, null, selection, null, sortOrder)) {
+            if (cursor != null) {
+                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+                int titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                int artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+                int albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
+
+                while (cursor.moveToNext()) {
+                    long id = cursor.getLong(idColumn);
+                    String title = cursor.getString(titleColumn);
+                    String artist = cursor.getString(artistColumn);
+                    String data = cursor.getString(dataColumn);
+                    long albumId = cursor.getLong(albumIdColumn);
+
+                    songs.add(new Song(id, title, artist, data, albumId));
+                }
             }
-        });
+        } catch (Exception ignored) {
+        }
+        return songs;
+    }
+
+    private void loadSongs() {
+        songList = getSongs();
+        binding.progressBarFavorite.setVisibility(View.GONE);
+        if (songList.isEmpty()) {
+            binding.textEmptyFavorite.setVisibility(View.VISIBLE);
+            binding.textEmptyFavorite.setText(R.string.no_music_message);
+        } else {
+            binding.textEmptyFavorite.setVisibility(View.GONE);
+        }
+        previewSongs = new ArrayList<>(songList.subList(0, Math.min(songList.size(), 3)));
+        adapter = new SongAdapter(previewSongs, this);
+        binding.favoriteView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        intent.putParcelableArrayListExtra("songList", new ArrayList<>(songList));
+        Song selectedSong = previewSongs.get(position);
+        int startPosition = songList.indexOf(selectedSong);
+        if (startPosition < 0) {
+            startPosition = position;
+        }
+        intent.putExtra("position", startPosition);
+        startActivity(intent);
     }
 }
