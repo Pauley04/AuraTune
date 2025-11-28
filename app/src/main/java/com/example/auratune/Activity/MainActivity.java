@@ -16,6 +16,7 @@ import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.recycleviewSongs.setLayoutManager(new LinearLayoutManager(this));
+        binding.backBtn.setOnClickListener(v -> finish());
 
         requestPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -126,5 +128,10 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
         intent.putParcelableArrayListExtra("songList", new ArrayList<>(songList));
         intent.putExtra("position", position);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteSong(@NonNull Song song) {
+
     }
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AuraTune</string>
     <string name="get_started">Get Started</string>
-    <string name="explorer_artist">Explorer Artist</string>
+    <string name="your_favorites">Your Favorites</string>
 
     <!-- Added strings for item_song.xml -->
     <string name="album_art_desc">Album art</string>
@@ -36,4 +36,14 @@
     <string name="category_label">Category</string>
     <string name="no_music_message">No music found. Grant permission or add audio files to your device.</string>
     <string name="permission_prompt_music">Permission needed to read music files. Tap to request.</string>
+    <string name="import_song">Import song</string>
+    <string name="delete_song_prompt">Delete this song from device?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="refresh">Refresh</string>
+    <string name="import_success">Song imported</string>
+    <string name="import_failed">Unable to import song</string>
+    <string name="delete_success">Song deleted</string>
+    <string name="delete_failed">Unable to delete song</string>
+    <string name="import_permission_needed">Storage permission is required to import songs.</string>
 </resources>

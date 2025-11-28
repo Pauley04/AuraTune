@@ -1,6 +1,7 @@
 package com.example.auratune.Adapter;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.example.auratune.R;
 import com.example.auratune.Domain.Song;
 import com.example.auratune.databinding.ItemSongBinding;
@@ -23,6 +25,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onDeleteSong(@NonNull Song song);
     }
 
     public SongAdapter(List<Song> songs, OnItemClickListener listener) {
@@ -82,6 +85,25 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
                     }
                 }
             });
+
+            binding.getRoot().setOnLongClickListener(view -> {
+                if (listener != null) {
+                    int pos = getBindingAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        showDeleteDialog(view.getContext(), songs.get(pos));
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+        private void showDeleteDialog(Context context, Song song) {
+            new MaterialAlertDialogBuilder(context)
+                    .setMessage(R.string.delete_song_prompt)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.delete, (dialog, which) -> listener.onDeleteSong(song))
+                    .show();
         }
     }
 }

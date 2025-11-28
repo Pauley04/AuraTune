@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -187,5 +188,10 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
         }
         intent.putExtra("position", startPosition);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteSong(@NonNull Song song) {
+
     }
 }
