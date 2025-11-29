@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.auratune.Adapter.FavoriteAdapter;
 import com.example.auratune.Domain.Song;
+import com.example.auratune.R;
 import com.example.auratune.Repository.FavoriteManager;
 import com.example.auratune.databinding.ActivityFavoritePlaylistBinding;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class FavoritePlaylistActivity extends AppCompatActivity implements Favor
         binding.recyclerFavorites.setAdapter(adapter);
 
         loadFavorites();
+        setupBottomNavigation();
     }
 
     @Override
@@ -54,5 +57,18 @@ public class FavoritePlaylistActivity extends AppCompatActivity implements Favor
         Intent intent = new Intent(this, PlayerActivity.class);
         intent.putParcelableArrayListExtra("songList", new ArrayList<>(favoriteSongs));
         intent.putExtra("position", position);
-        startActivity(intent);    }
+        startActivity(intent);
+    }
+
+    private void setupBottomNavigation() {
+        ChipNavigationBar navigationBar = binding.bottomNavigation;
+        navigationBar.setItemSelected(R.id.favorites, true);
+        navigationBar.setOnItemSelectedListener(id -> {
+            if (id == R.id.home) {
+                Intent intent = new Intent(FavoritePlaylistActivity.this, MenuPlayerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
 }

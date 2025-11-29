@@ -11,12 +11,12 @@
         android:id="@+id/imageView3"
         android:layout_width="415dp"
         android:layout_height="897dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/pur"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/pur"
-        android:contentDescription="@string/app_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/backBtn"
@@ -58,16 +58,35 @@
         android:id="@+id/textEmpty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:gravity="center"
         android:text="@string/no_music_message"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/recycleviewSongs"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycleviewSongs"
         app:layout_constraintVertical_bias="0.1" />
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_text_bg"
+        android:padding="4dp"
+        app:cnb_iconColor="@color/black"
+        app:cnb_iconSize="20dp"
+        app:cnb_menuResource="@menu/bottom_menu"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_radius="10dp"
+        app:cnb_unselectedColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Debug panel: allows manual re-query and shows results for diagnosis -->
 

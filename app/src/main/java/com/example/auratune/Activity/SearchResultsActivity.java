@@ -22,6 +22,8 @@ import com.example.auratune.Adapter.SongAdapter;
 import com.example.auratune.Domain.Song;
 import com.example.auratune.R;
 import com.example.auratune.databinding.ActivitySearchResultsBinding;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,8 @@ public class SearchResultsActivity extends AppCompatActivity implements SongAdap
         );
 
         checkPermissionsAndLoadSongs();
+        setupBottomNavigation();
+
     }
 
     private void checkPermissionsAndLoadSongs() {
@@ -175,4 +179,21 @@ public class SearchResultsActivity extends AppCompatActivity implements SongAdap
     public void onDeleteSong(@NonNull Song song) {
         // Delete not supported from search results
     }
+
+    private void setupBottomNavigation() {
+        ChipNavigationBar navigationBar = binding.bottomNavigation;
+        navigationBar.setItemSelected(R.id.home, true);
+        navigationBar.setOnItemSelectedListener(id -> {
+            if (id == R.id.home) {
+                Intent intent = new Intent(SearchResultsActivity.this, MenuPlayerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else if (id == R.id.favorites) {
+                Intent intent = new Intent(SearchResultsActivity.this, FavoritePlaylistActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
 }
+

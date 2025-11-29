@@ -26,6 +26,8 @@ import com.example.auratune.Adapter.SongAdapter;
 import com.example.auratune.Domain.Song;
 import com.example.auratune.R;
 import com.example.auratune.databinding.ActivityMainBinding;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
 
 import java.util.List;
 import java.util.ArrayList;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
         );
 
         checkPermissionsAndLoadSongs();
+        setupBottomNavigation();
+
     }
 
     private void checkPermissionsAndLoadSongs() {
@@ -161,5 +165,17 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
             Log.e("AuraTune", "Failed to delete song", e);
             Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setupBottomNavigation() {
+        ChipNavigationBar navigationBar = binding.bottomNavigation;
+        navigationBar.setItemSelected(R.id.favorites, true);
+        navigationBar.setOnItemSelectedListener(id -> {
+            if (id == R.id.home) {
+                Intent intent = new Intent(MainActivity.this, MenuPlayerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 }

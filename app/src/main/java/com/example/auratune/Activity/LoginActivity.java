@@ -72,16 +72,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // Social buttons: simple demo handlers (replace with real OAuth flows)
         fbBtn.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "Continue with Facebook (demo)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Continue with Facebook", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, MenuPlayerActivity.class));
         });
         ggBtn.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "Continue with Google (demo)", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Toast.makeText(LoginActivity.this, "Continue with Google", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MenuPlayerActivity.class));
         });
         ttBtn.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "Continue with Twitter (demo)", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Toast.makeText(LoginActivity.this, "Continue with Twitter", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MenuPlayerActivity.class));
         });
     }
     private void initView(){
