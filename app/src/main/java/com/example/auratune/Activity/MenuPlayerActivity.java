@@ -75,7 +75,7 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
         initFavorite();
 
         binding.textView9.setOnClickListener(v -> {
-            Intent intent = new Intent(MenuPlayerActivity.this, MainActivity.class);
+            Intent intent = new Intent(MenuPlayerActivity.this, FavoritePlaylistActivity.class);
             startActivity(intent);
         });
 

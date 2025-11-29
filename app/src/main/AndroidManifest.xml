@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuraTune">
         <activity
+            android:name=".Activity.FavoritePlaylistActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SearchResultsActivity"
             android:exported="false" />
         <activity

@@ -50,5 +50,9 @@
     <string name="search_button_description">Search library</string>
     <string name="search_results_title">Search results</string>
     <string name="search_results_for">for "%1$s"</string>
+    <string name="favorite_added">Added to favorites</string>
+    <string name="favorite_removed">Removed from favorites</string>
+    <string name="favorite_playlist_title">Favorite Playlist</string>
+    <string name="empty_favorites">You have not added any songs to favorites yet.</string>
 
 </resources>

@@ -15,11 +15,13 @@ import com.bumptech.glide.Glide;
 import com.example.auratune.R;
 import com.example.auratune.Domain.Song;
 import com.example.auratune.databinding.ActivityPlayerBinding;
+import com.example.auratune.Repository.FavoriteManager;
 import com.frolo.waveformseekbar.WaveformSeekBar;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -88,6 +90,7 @@ public class PlayerActivity extends AppCompatActivity {
         binding.btnPrev.setOnClickListener(v -> playPrev());
         binding.btnShuffle.setOnClickListener(v -> toggleShuffle());
         binding.btnRepeat.setOnClickListener(v -> toggleRepeat());
+        binding.favBtn.setOnClickListener(v -> toggleFavorite());
 
 
         binding.waveformSeekBar.setCallback(new WaveformSeekBar.Callback() {
@@ -154,6 +157,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         updatePlayPauseButtonIcon();
         updateUI(song);
+        updateFavoriteIcon(song);
     }
 
     private void updateUI(Song song) {
@@ -185,6 +189,30 @@ public class PlayerActivity extends AppCompatActivity {
             binding.imageAlbumArtPlayer.setImageResource(R.drawable.ic_music_note_24);
             binding.bgAlbumArt.setImageResource(R.drawable.ic_music_note_24);
         }
+    }
+
+    private void toggleFavorite() {
+        Song song = getCurrentSong();
+        if (FavoriteManager.isFavorite(song)) {
+            FavoriteManager.removeFromFavorites(song);
+            binding.favBtn.setImageResource(R.drawable.ic_favorite_border_24);
+            Toast.makeText(this, R.string.favorite_removed, Toast.LENGTH_SHORT).show();
+        } else {
+            FavoriteManager.addToFavorites(song);
+            binding.favBtn.setImageResource(R.drawable.ic_favorite_filled_24);
+            Toast.makeText(this, R.string.favorite_added, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateFavoriteIcon(Song song) {
+        int iconRes = FavoriteManager.isFavorite(song)
+                ? R.drawable.ic_favorite_filled_24
+                : R.drawable.ic_favorite_border_24;
+        binding.favBtn.setImageResource(iconRes);
+    }
+
+    private Song getCurrentSong() {
+        return isShuffle ? shuffledList.get(currentIndex) : songList.get(currentIndex);
     }
 
     private boolean hasAlbumArt(Uri albumArtUri) {
