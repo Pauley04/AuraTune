@@ -34,6 +34,7 @@ import com.example.auratune.Domain.Song;
 import com.example.auratune.R;
 import com.example.auratune.ViewModel.MainViewModel;
 import com.example.auratune.databinding.ActivityMenuPlayerBinding;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,14 +74,17 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
         initCategory();
         initBanner();
         initFavorite();
+        setupBottomNavigation();
+
 
         binding.textView9.setOnClickListener(v -> {
-            Intent intent = new Intent(MenuPlayerActivity.this, FavoritePlaylistActivity.class);
+            Intent intent = new Intent(MenuPlayerActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
         binding.buttonSearchEnter.setOnClickListener(v -> navigateToSearchResults());
     }
+
 
     private void navigateToSearchResults() {
         String query = binding.editTextText2.getText().toString();
@@ -197,6 +201,20 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
 
         //setupSearch();
     }
+
+    private void setupBottomNavigation() {
+        ChipNavigationBar navigationBar = binding.bottomNavigation;
+        if (navigationBar == null) return;
+
+        navigationBar.setItemSelected(R.id.home, true);
+        navigationBar.setOnItemSelectedListener(id -> {
+            if (id == R.id.favorites) {
+                Intent intent = new Intent(MenuPlayerActivity.this, FavoritePlaylistActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void setupSearch() {
         binding.editTextText2.addTextChangedListener(new TextWatcher() {

@@ -1,5 +1,6 @@
 package com.example.auratune.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -36,6 +37,11 @@ public class FavoritePlaylistActivity extends AppCompatActivity implements Favor
         loadFavorites();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFavorites();
+    }
     private void loadFavorites() {
         favoriteSongs.clear();
         favoriteSongs.addAll(FavoriteManager.getFavorites());
@@ -45,6 +51,8 @@ public class FavoritePlaylistActivity extends AppCompatActivity implements Favor
 
     @Override
     public void onFavoriteClick(int position) {
-        // Reserved for future interactions like playing the selected song
-    }
+        Intent intent = new Intent(this, PlayerActivity.class);
+        intent.putParcelableArrayListExtra("songList", new ArrayList<>(favoriteSongs));
+        intent.putExtra("position", position);
+        startActivity(intent);    }
 }

@@ -42,20 +42,4 @@
         app:layout_constraintStart_toStartOf="@+id/textTitle"
         app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
-    <TextView
-        android:id="@+id/textSongDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="226dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:maxLines="1"
-        android:text="@string/duration_placeholder"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textTitle"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

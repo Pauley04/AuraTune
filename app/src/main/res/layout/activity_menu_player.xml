@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Your Favourites"
+                    android:text="Favorite Hits"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -223,6 +223,7 @@
     </ScrollView>
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="77dp"

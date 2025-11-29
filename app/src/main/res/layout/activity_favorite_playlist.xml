@@ -7,12 +7,25 @@
     android:background="@color/black"
     tools:context=".Activity.FavoritePlaylistActivity">
 
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pur"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:text="@string/favorite_playlist_title"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -38,6 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:paddingBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"

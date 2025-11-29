@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AuraTune</string>
     <string name="get_started">Get Started</string>
-    <string name="your_favorites">Your Favorites</string>
+    <string name="favorites">Favorite Hits</string>
 
     <!-- Added strings for item_song.xml -->
     <string name="album_art_desc">Album art</string>
@@ -54,5 +54,7 @@
     <string name="favorite_removed">Removed from favorites</string>
     <string name="favorite_playlist_title">Favorite Playlist</string>
     <string name="empty_favorites">You have not added any songs to favorites yet.</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_favorite">Favorites</string>
 
 </resources>
