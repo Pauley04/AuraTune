@@ -35,7 +35,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        //holder.binding.TitleCat.setText(items.get(position).getTitle());
+        holder.binding.TitleCat.setText(items.get(position).getTitle());
 
         int adapterPosition = holder.getBindingAdapterPosition();
         if (adapterPosition == RecyclerView.NO_POSITION) {
@@ -52,8 +52,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 }
 
                 lastSelectedPosition = selectedPosition;
-//                selectedPosition = holder.getAdapterPosition();
-//                notifyItemChanged(lastSelectedPosition);
+                selectedPosition = holder.getAdapterPosition();
+                notifyItemChanged(lastSelectedPosition);
                 notifyItemChanged(selectedPosition);
             }
         });

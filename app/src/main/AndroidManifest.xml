@@ -20,10 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuraTune">
         <activity
+            android:name=".Activity.SearchResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.DetailAlbumActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.LoginActivity"
             android:exported="false"
-            android:label="@string/title_activity_login" />
-        <!-- Launcher (entry) activity: Splash -> opens Login then Main -->
+            android:label="@string/title_activity_login" /> <!-- Launcher (entry) activity: Splash -> opens Login then Main -->
         <activity
             android:name=".Activity.SlpashActivity"
             android:exported="true">

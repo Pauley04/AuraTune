@@ -1,5 +1,6 @@
 package com.example.auratune.Activity;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -87,17 +88,19 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
                 int titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
                 int artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
                 int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+                int albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM);
                 int albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
 
                 while (cursor.moveToNext()) {
                     long id = cursor.getLong(idColumn);
                     String title = cursor.getString(titleColumn);
                     String artist = cursor.getString(artistColumn);
+                    String album = cursor.getString(albumColumn);
                     String data = cursor.getString(dataColumn);
                     long albumId = cursor.getLong(albumIdColumn);
 
                     Log.d("AuraTune", "Song: " + title + " by " + artist);
-                    songs.add(new Song(id, title, artist, data, albumId));
+                    songs.add(new Song(id, title, artist, album, data, albumId));
                 }
             } else {
                 Log.d("AuraTune", "Cursor is null");
@@ -132,6 +135,31 @@ public class MainActivity extends AppCompatActivity implements SongAdapter.OnIte
 
     @Override
     public void onDeleteSong(@NonNull Song song) {
+        Uri songUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, song.id);
+        try {
+            int rowsDeleted = getContentResolver().delete(songUri, null, null);
+            if (rowsDeleted > 0) {
+                int index = songList.indexOf(song);
+                if (index >= 0) {
+                    songList.remove(index);
+                    adapter.notifyItemRemoved(index);
+                } else {
+                    songList.remove(song);
+                    adapter.notifyDataSetChanged();
+                }
 
+                if (songList.isEmpty()) {
+                    binding.textEmpty.setVisibility(View.VISIBLE);
+                    binding.textEmpty.setText(R.string.no_music_message);
+                }
+
+                Toast.makeText(this, R.string.delete_success, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show();
+            }
+        } catch (SecurityException e) {
+            Log.e("AuraTune", "Failed to delete song", e);
+            Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show();
+        }
     }
 }

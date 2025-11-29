@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
@@ -42,7 +44,7 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
 
     private SongAdapter adapter;
     private List<Song> songList;
-    private List<Song> previewSongs;
+    private List<Song> displayedSongs;
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
@@ -76,6 +78,19 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
             Intent intent = new Intent(MenuPlayerActivity.this, MainActivity.class);
             startActivity(intent);
         });
+
+        binding.buttonSearchEnter.setOnClickListener(v -> navigateToSearchResults());
+    }
+
+    private void navigateToSearchResults() {
+        String query = binding.editTextText2.getText().toString();
+        if (query.trim().isEmpty()) {
+            Toast.makeText(this, R.string.no_search_results, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        intent.putExtra(SearchResultsActivity.EXTRA_QUERY, query);
+        startActivity(intent);
     }
 
     private void initCategory() {
@@ -115,6 +130,8 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
     private void initFavorite() {
         binding.progressBarFavorite.setVisibility(View.VISIBLE);
         checkPermissionsAndLoadSongs();
+
+        binding.editTextText2.clearFocus();
     }
 
     private void checkPermissionsAndLoadSongs() {
@@ -146,16 +163,18 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
                 int titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
                 int artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
                 int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+                int albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM);
                 int albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
 
                 while (cursor.moveToNext()) {
                     long id = cursor.getLong(idColumn);
                     String title = cursor.getString(titleColumn);
                     String artist = cursor.getString(artistColumn);
+                    String album = cursor.getString(albumColumn);
                     String data = cursor.getString(dataColumn);
                     long albumId = cursor.getLong(albumIdColumn);
 
-                    songs.add(new Song(id, title, artist, data, albumId));
+                    songs.add(new Song(id, title, artist, album, data, albumId));
                 }
             }
         } catch (Exception ignored) {
@@ -172,16 +191,67 @@ public class MenuPlayerActivity extends AppCompatActivity implements SongAdapter
         } else {
             binding.textEmptyFavorite.setVisibility(View.GONE);
         }
-        previewSongs = new ArrayList<>(songList.subList(0, Math.min(songList.size(), 3)));
-        adapter = new SongAdapter(previewSongs, this);
+        displayedSongs = new ArrayList<>(songList.subList(0, Math.min(songList.size(), 3)));
+        adapter = new SongAdapter(displayedSongs, this);
         binding.favoriteView.setAdapter(adapter);
+
+        //setupSearch();
+    }
+
+    private void setupSearch() {
+        binding.editTextText2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterSongs(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    private void filterSongs(@NonNull String query) {
+        if (songList == null || displayedSongs == null) return;
+
+        String trimmedQuery = query.trim();
+        List<Song> filtered;
+
+        if (trimmedQuery.isEmpty()) {
+            filtered = new ArrayList<>(songList.subList(0, Math.min(songList.size(), 3)));
+        } else {
+            String lowerQuery = trimmedQuery.toLowerCase();
+            filtered = new ArrayList<>();
+            for (Song song : songList) {
+                String title = song.title != null ? song.title.toLowerCase() : "";
+                String artist = song.artist != null ? song.artist.toLowerCase() : "";
+                String album = song.album != null ? song.album.toLowerCase() : "";
+
+                if (title.contains(lowerQuery) || artist.contains(lowerQuery) || album.contains(lowerQuery)) {
+                    filtered.add(song);
+                }
+            }
+        }
+
+        displayedSongs.clear();
+        displayedSongs.addAll(filtered);
+        adapter.notifyDataSetChanged();
+
+        if (filtered.isEmpty()) {
+            binding.textEmptyFavorite.setVisibility(View.VISIBLE);
+            binding.textEmptyFavorite.setText(trimmedQuery.isEmpty() ? R.string.no_music_message : R.string.no_search_results);
+        } else {
+            binding.textEmptyFavorite.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, PlayerActivity.class);
         intent.putParcelableArrayListExtra("songList", new ArrayList<>(songList));
-        Song selectedSong = previewSongs.get(position);
+        Song selectedSong = displayedSongs.get(position);
         int startPosition = songList.indexOf(selectedSong);
         if (startPosition < 0) {
             startPosition = position;

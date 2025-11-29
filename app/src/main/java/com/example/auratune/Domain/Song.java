@@ -9,13 +9,15 @@ public class Song implements Parcelable {
     public long id;
     public String title;
     public String artist;
+    public String album;
     public String data;
     public long albumId;
 
-    public Song(long id, String title, String artist, String data, long albumId) {
+    public Song(long id, String title, String artist, String album, String data, long albumId) {
         this.id = id;
         this.title = title;
         this.artist = artist;
+        this.album = album;
         this.data = data;
         this.albumId = albumId;
     }
@@ -24,6 +26,7 @@ public class Song implements Parcelable {
         id = in.readLong();
         title = in.readString();
         artist = in.readString();
+        album = in.readString();
         data = in.readString();
         albumId = in.readLong();
     }
@@ -50,6 +53,7 @@ public class Song implements Parcelable {
         dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(artist);
+        dest.writeString(album);
         dest.writeString(data);
         dest.writeLong(albumId);
     }

@@ -46,4 +46,9 @@
     <string name="delete_success">Song deleted</string>
     <string name="delete_failed">Unable to delete song</string>
     <string name="import_permission_needed">Storage permission is required to import songs.</string>
+    <string name="no_search_results">No songs match your search.</string>
+    <string name="search_button_description">Search library</string>
+    <string name="search_results_title">Search results</string>
+    <string name="search_results_for">for "%1$s"</string>
+
 </resources>
