@@ -4,6 +4,8 @@ AuraTune is an Android music player application built with modern Android develo
 
 ## AI Coding Assistants - GitHub Copilot
 
+> **Why this documentation?** This section answers the question: "Which is the best AI agent Copilot Pro has to generate codes, fix codes, and explain codes?" This information is valuable for developers working on this project or any software development project.
+
 ### What is GitHub Copilot?
 
 GitHub Copilot is an AI-powered coding assistant that helps developers write code faster and more efficiently. It's available in multiple tiers, including **GitHub Copilot Pro**, which offers enhanced capabilities for professional developers.
@@ -74,7 +76,7 @@ GitHub Copilot can explain complex code in natural language:
 
 While GitHub Copilot Pro is excellent, other options include:
 
-- **Amazon CodeWhisperer**: AWS-focused with security scanning
+- **Amazon Q Developer** (formerly CodeWhisperer): AWS-focused with security scanning
 - **Tabnine**: Privacy-focused with on-premise deployment options
 - **Replit Ghostwriter**: Integrated with Replit's online IDE
 - **Codeium**: Free alternative with good multi-language support
